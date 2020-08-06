@@ -1,0 +1,14 @@
+{% extends "face/base.html" %}
+
+{% block content %}
+
+
+<div class='col-sm-6 col-sm-offset-3'>
+    {% if instance.image %}
+    <img src="{{ instance.image.url }}" class="img-fluid" />
+    {% endif %}
+    <h1>{{ title }}</h1>
+    <small>{{ instance.timestamp }}</small><br/>
+    {{ instance.content| linebreaks }}<br/>
+</div>
+{% endblock content %}s

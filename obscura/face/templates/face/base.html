@@ -1,0 +1,55 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block head_title %}Blog{% endblock head_title %}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.1/css/bootstrap.min.css" integrity="sha384-VCmXjywReHh4PwowAiWNagnWcLhlEJLA5buUprzK8rxFgeH0kww/aWY76TfkUoSX" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}"/>
+</head>
+<body>
+    {% if messages %}
+
+    <div class="messages">
+
+        <ul class="messages">
+            {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+
+    <div class="container">
+        <div class='col-sm-6 col-sm-offset-3'>
+        <span>Hello, {{ request.user }}</span>
+        <span><a href="{% url 'account:logout' %}">Logout</a></span>
+        {% block content %}
+            <h1>{{ title }}</h1>
+            {% for obj in object_list %}
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card" >
+                      {% if obj.image %}
+                      <img src="{{ obj.image.url }}" class="card-img-top" alt="...">
+                      {% endif %}
+                      <div class="card-body">
+                        <h5 class="card-title"><a href="{{ obj.get_absolute_url }}">{{ obj.title }}</a></h5><small>{{ obj.timestamp|timesince }}</small>
+                        <p class="card-text">{{ obj.content|linebreaks|truncatechars:120 }}</p>
+                        <a href="{{ obj.get_absolute_url }}" class="btn btn-primary">View</a>
+                      </div>
+                    </div>
+                    <hr/>
+                </div>
+            </div>  
+            {% endfor %}      
+        {% endblock content %} 
+    </div>
+    </div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.1/js/bootstrap.min.js" integrity="sha384-XEerZL0cuoUbHE4nZReLT7nx9gQrQreJekYhJD9WNWhH8nEW+0c5qq7aIo2Wl30J" crossorigin="anonymous"></script>
+</body>
+</html>
